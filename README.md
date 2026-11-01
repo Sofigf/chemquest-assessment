@@ -17,7 +17,7 @@ Until a Google Sheets deployment is connected, the website clearly uses **this b
 ### Connect Google Sheets
 
 1. Create a private Google spreadsheet. Open **Extensions → Apps Script**.
-2. Paste `apps-script/Code.gs` into Code.gs and save it. This script is bound to the response spreadsheet and uses `@OnlyCurrentDoc`.
+2. Paste `apps-script/Code.gs` into Code.gs and save it. This script is bound to the response spreadsheet. Google will request the Sheets permission needed to open the configured database by ID. Review that permission before authorising it.
 3. Run **setup**. It creates four database tabs without overwriting existing data. Save the private administrator key shown in the dialog.
 4. Deploy as **Web app**, executing as yourself, access **Anyone**. Keep the spreadsheet private; do not publish its tabs.
 5. Put the returned deployment URL ending `/exec` into `public/config.js`, rebuild and commit `docs/`. This URL is public configuration, not a secret. Alternatively set it through the website's Google Sheets button on each device.
