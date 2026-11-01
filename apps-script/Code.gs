@@ -1,4 +1,4 @@
-/** @OnlyCurrentDoc
+/**
  * Chem Quest 3D — Google Sheets backend.
  * Bind this script to the private response spreadsheet. Run setup once.
  * Deploy Web app: execute as yourself, access Anyone. Keep ADMIN_KEY private.
