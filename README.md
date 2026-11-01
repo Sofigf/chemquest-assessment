@@ -1,34 +1,37 @@
 # Chem Quest 3D — Assessment Studio
 
-A GitHub Pages website for hydrocarbon pre/post assessment, with anonymous participants and interactive 3D isomers.
+Hydrocarbon pre/post assessment hosted on GitHub Pages, with a connected persistent database. Google login and Google Sheets are not required.
 
-## Included
+## Student website
+
+https://sofigf.github.io/chemquest-assessment/
 
 - 20 identical multiple-choice questions (A–D) in PRE and POST, in the same order.
-- Six pictured questions per stage. Models support drag/keyboard rotation, zoom and hydrogen visibility.
-- Anonymous participant labels A–AD for a class of 30; supports 1–100 participants.
-- Separate pre/post answers, automatic scoring, paired results, group N-gain and CSV export.
-- A Google Sheets backend in `apps-script/Code.gs`.
+- Six pictured questions per stage, with draggable/keyboard-controlled 3D isomer models.
+- Server-side scoring and duplicate-submission protection.
+- Anonymous participant codes. Student names are never requested.
+- Draft selections may be retained in the browser session. Submitted answers are stored on the server, not in browser-only storage.
 
-## Storage
+The connection indicator checks the live database. Students need only the 16-character code provided by the teacher.
 
-Until a Google Sheets deployment is connected, the website clearly uses **this browser's storage only**. It can be tried on one device, but it does not synchronise a class across devices. For classroom collection, connect the Google Sheets backend first.
+## Teacher panel
 
-### Connect Google Sheets
+Open **Panel guru** on the student website. The panel uses Sign in with ChatGPT and permits only the configured teacher account. No password, administrator key or database credential is stored in this repository.
 
-1. Create a private Google spreadsheet. Open **Extensions → Apps Script**.
-2. Paste `apps-script/Code.gs` into Code.gs and save it. This script is bound to the response spreadsheet. Google will request the Sheets permission needed to open the configured database by ID. Review that permission before authorising it.
-3. Run **setup**. It creates four database tabs without overwriting existing data. Save the private administrator key shown in the dialog.
-4. Deploy as **Web app**, executing as yourself, access **Anyone**. Keep the spreadsheet private; do not publish its tabs.
-5. Put the returned deployment URL ending `/exec` into `public/config.js`, rebuild and commit `docs/`. This URL is public configuration, not a secret. Alternatively set it through the website's Google Sheets button on each device.
-6. On the teacher's browser, enter the private administrator key in **Google Sheets** settings. It is stored for the browser session only and is never committed to this repository.
-7. Create a class, download the codes once and distribute each code privately. Open PRE, then teach, open POST and finally close the class.
+1. Create a class of 1–100 participants; 30 generates labels A–AD.
+2. Download the access-code CSV immediately. Raw codes are shown once; only hashes remain in the database.
+3. Open PRE. After the lesson, open POST. Finally close the test.
+4. Review paired results and export CSV. Means use complete pairs only; group N-gain is undefined at pre = 100.
 
-The backend checks access codes, scores answers on the server, uses a script-wide lock to prevent duplicate submissions, and requires the administrator key for private reports and class management. Student names are never requested. Publicly hosted source includes the draft question key; review suitability before using it for a controlled examination.
+## Database
+
+The API origin is public configuration in `public/config.js`. Only anonymous assessment start/submit operations are accepted from the GitHub website; they require a valid participant code and an open stage. Class management and participant reports require the configured teacher's authenticated identity. Other origins are rejected. The database and answer key are not hosted by GitHub Pages.
+
+The Google Sheets script retained in `apps-script/` is a legacy optional adapter; it is not used by the live website.
 
 ## Presentation dataset
 
-The Presentation tab is explicitly labelled illustrative data. Its 30 imported summary rows reproduce the presentation means 55.8 and 84.2, gain +28.4 and group N-gain approximately 0.64. These rows are not actual student answers or research records and have no invented submission dates. Active-class results are calculated separately and are never forced to match those figures.
+The Presentation view is explicitly labelled illustrative. Its 30 imported summary rows reproduce means 55.8 and 84.2, gain +28.4 and group N-gain approximately 0.64. These are not student answers or research records. Actual submissions are stored and calculated separately and are never forced to match the presentation.
 
 ## Development
 
@@ -40,6 +43,6 @@ npm run dev
 npm run build
 ```
 
-`npm run build` writes `docs/`. In GitHub **Settings → Pages**, deploy from the **main** branch and **/docs** folder. The committed `docs/` folder is ready for GitHub Pages without a build workflow.
+Build output is `docs/`; Pages serves the `main` branch, `/docs` folder. Commit both source and updated build output after changes. No secrets belong in client configuration.
 
-Models use generated, representative 3D coordinates; they are not experimental geometry measurements. Questions are draft items and need teacher validation. Identical pre/post questions may introduce a practice effect.
+Models use representative generated coordinates. The draft questions require teacher validation; identical pre/post items can introduce a practice effect.
