@@ -1,2 +1,2 @@
-// Isi URL deployment Apps Script /exec setelah backend diaktifkan. Jangan taruh kunci pengelola di sini.
-window.CQ_SCRIPT_URL = '';
+// Public database API. No API keys or student identities are stored here.
+window.CQ_API_BASE = 'https://chemquest-assessment-lab.citrusskink66.chatgpt.site';
